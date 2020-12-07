@@ -6,5 +6,10 @@ import com.example.vehicles.domain.repository.IVehicleRepository
 
 class VehicleRepository(private val api: IVehicleClientApi) : IVehicleRepository {
 
-    override fun getVehicles(): VehicleData = api.getVehicles()
+    override fun getVehicles(): VehicleData {
+        vehicleCache = api.getVehicles()
+        return vehicleCache
+    }
+
+    override var vehicleCache: VehicleData = VehicleData.Success(emptyList())
 }
