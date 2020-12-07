@@ -8,6 +8,6 @@ import javax.inject.Inject
 class GetVehicleDetailsInteractor @Inject constructor(private val repository: IVehicleRepository): Interactor<String, Vehicle?>() {
 
     override fun invoke(input: String): Vehicle? {
-        return (repository.vehicleCache as VehicleData.Success).vehicles.find { it.id == input }
+        return (repository.getVehicles() as VehicleData.Success).vehicles.find { it.id == input }
     }
 }

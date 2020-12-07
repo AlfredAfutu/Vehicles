@@ -7,9 +7,13 @@ import com.example.vehicles.domain.repository.IVehicleRepository
 class VehicleRepository(private val api: IVehicleClientApi) : IVehicleRepository {
 
     override fun getVehicles(): VehicleData {
-        vehicleCache = api.getVehicles()
-        return vehicleCache
+        return if (vehicleCache != null) {
+             vehicleCache!!
+        } else {
+            vehicleCache = api.getVehicles()
+            vehicleCache!!
+        }
     }
 
-    override var vehicleCache: VehicleData = VehicleData.Success(emptyList())
+    private var vehicleCache: VehicleData? = null
 }
