@@ -4,6 +4,7 @@ import com.example.vehicles.data.api.IVehicleClientApi
 import com.example.vehicles.domain.model.VehicleData
 import com.example.vehicles.framework.api.ApiConstants.ERROR_MESSAGE
 import com.example.vehicles.framework.api.mapper.VehiclesDTOToDomainModelMapper
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class VehicleClientApi(private val service: VehicleService) : IVehicleClientApi {
@@ -13,6 +14,7 @@ class VehicleClientApi(private val service: VehicleService) : IVehicleClientApi 
             .map { VehiclesDTOToDomainModelMapper.map(it) }
             .onErrorReturnItem(VehicleData.Error(ERROR_MESSAGE))
             .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .blockingFirst()
     }
 }
